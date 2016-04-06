@@ -41,5 +41,15 @@ router.post('/', function(req, res, next) {
 });
 
 
+router.delete('/:categoryId', function(req, res, next) {
+	Category.findByIdAndRemove(req.params.categoryId, function(err) {
+	    if (err)
+	        res.send(err);
+	    res.json({
+	    	success: true
+	    });
+	});
+});
+
 
 module.exports = router;
