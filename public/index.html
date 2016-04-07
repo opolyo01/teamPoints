@@ -2,88 +2,34 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" href="stylesheets/style.css" />
     <link rel="stylesheet" href="kendo-ui/styles/kendo.common.min.css" />
     <link rel="stylesheet" href="kendo-ui/styles/kendo.default.min.css" />
-
+    
     <script src="kendo-ui/js/jquery.min.js"></script>
+    <script src="kendo-ui/js/angular.min.js"></script>
     <script src="kendo-ui/js/kendo.all.min.js"></script>
 </head>
 <body>
-        <div id="example">
-            <div id="grid"></div>
-
-            <script>
-                $(document).ready(function () {
-                    var crudServiceBaseUrl = "/categories",
-                        dataSource = new kendo.data.DataSource({
-                            transport: {
-                                read:  {
-                                    url: crudServiceBaseUrl,
-                                    dataType: "json",
-                                    type: 'GET'
-                                },
-                                update: {
-                                    url: function (options) {
-				                        return '/categories/' + options.models[0]._id;
-				                    },
-                                    dataType: "json",
-                                    type: 'PUT'
-                                },
-                                destroy: {
-                                    url: function (options) {
-				                        return '/categories/' + options.models[0]._id;
-				                    },
-                                    dataType: "json",
-                                    type: 'DELETE'
-                                },
-                                create: {
-                                    url: crudServiceBaseUrl,
-                                    dataType: "json",
-                                    type: 'POST'
-                                },
-                                parameterMap: function(options, operation) {
-                                	if (operation === "update" && options.models) {
-                                        return options.models[0];
-                                    }
-                                    else if (operation === "create" && options.models) {
-                                    	delete options.models[0]._id;
-                                        return options.models[0];
-                                    }
-                                }
-                            },
-                            batch: true,
-                            pageSize: 20,
-                            schema: {
-                                model: {
-                                    id: "_id",
-                                    fields: {
-                                        name: {type: "string", validation: { required: true } },
-                                        points: {type: "string", validation: { required: true } }
-                                    }
-                                }
-                            },
-                            requestEnd: function(e) {
-                            	if(e.type !== "read"){
-                            		this.read();
-                            	}
-                            }
-                        });
-					
-                    $("#grid").kendoGrid({
-                        dataSource: dataSource,
-                        pageable: true,
-                        height: 550,
-                        toolbar: ["create"],
-                        columns: [
-                            { field: "name", title: "Category Name" },
-                            { field: "points", title:"Points" },
-                            { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
-                        editable: "inline"
-                    });
-                });
-            </script>
+	<div class="demo-section k-content">
+        <div id="tabstrip">
+            <ul>
+                <li class="k-state-active">
+                    Points
+                </li>
+                <li>
+                    Categories
+                </li>
+            </ul>
+            <div>
+                <div id="chart"></div>
+            </div>
+            <div>
+                <div id="grid"></div>
+            </div>
         </div>
-
-
+    </div>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/chart.js"></script>
 </body>
 </html>
